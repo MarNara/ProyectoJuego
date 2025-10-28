@@ -95,7 +95,7 @@ public class PantallaJuego implements Screen {
 		            b.update();
 		            for (int j = 0; j < balls1.size(); j++) {    
 		              if (b.checkCollision(balls1.get(j))) {          
-		            	 explosionSound.play(0.1f); //Bajar volumen
+		            	 explosionSound.play(0.1f); 
 		            	 balls1.remove(j);
 		            	 balls2.remove(j);
 		            	 j--;
