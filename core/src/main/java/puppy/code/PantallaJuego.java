@@ -47,11 +47,10 @@ public class PantallaJuego implements Screen {
 		camera.setToOrtho(false, 800, 640);
 		//inicializar assets; musica de fondo y efectos de sonido
 		explosionSound = Gdx.audio.newSound(Gdx.files.internal("explosion.ogg"));
-		explosionSound.setVolume(1,0.5f);
-		gameMusic = Gdx.audio.newMusic(Gdx.files.internal("piano-loops.wav")); //
 		
+		gameMusic = Gdx.audio.newMusic(Gdx.files.internal("piano-loops.wav")); //
 		gameMusic.setLooping(true);
-		gameMusic.setVolume(0.5f);
+		gameMusic.setVolume(0.1f);
 		gameMusic.play();
 		
 		//cargar imagen del fondo
@@ -96,7 +95,7 @@ public class PantallaJuego implements Screen {
 		            b.update();
 		            for (int j = 0; j < balls1.size(); j++) {    
 		              if (b.checkCollision(balls1.get(j))) {          
-		            	 explosionSound.play();
+		            	 explosionSound.play(0.1f);
 		            	 balls1.remove(j);
 		            	 balls2.remove(j);
 		            	 j--;
