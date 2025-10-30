@@ -13,16 +13,20 @@ public class Bullet {
     private Texture texture;
     private boolean destroyed = false;
     
+    //RAFA AGREGO AQUI
+    private boolean fromPlayer;
+    
     // 🔹 USAR VARIABLES DIRECTAS, no métodos
     private float anchoVisual;
     private float altoVisual;
 
     // En Bullet constructor - forzar tamaño VISIBLE:
-    public Bullet(float x, float y, float angle, Texture texture) {
+    public Bullet(float x, float y, float angle, Texture texture, boolean fromPlayer) {
         this.x = x;
         this.y = y;
         this.angle = angle;
         this.texture = texture;
+        this.fromPlayer = fromPlayer;
         
         if (angle == -90f) { // Balas alien
             this.speed = 200f;
@@ -97,6 +101,7 @@ public class Bullet {
         System.out.println("DIBUJANDO bala en: " + x + ", " + y + " | Tamaño: " + anchoVisual + "x" + altoVisual);
         batch.draw(texture, x, y, anchoVisual, altoVisual);
     }
+    /*
 
     public boolean checkCollision(Entidad target) {
         if (destroyed) return false;
@@ -126,7 +131,40 @@ public class Bullet {
         }
         return false;
     }
+    */
+    
+    public boolean checkCollision(Entidad target) {
+        if (destroyed) return false;
 
+        Rectangle r1 = new Rectangle(x, y, anchoVisual, altoVisual);
+        boolean colisiona = r1.overlaps(target.getArea());
+
+        if (!colisiona) {
+            return false;
+        }
+
+        // Si la bala viene del jugador, debe dañar a hostiles (Enemigo/Hostil/Destructible)
+        if (fromPlayer) {
+            if (target instanceof Destructible && target instanceof Hostil) {
+                ((Destructible)target).recibirDanio(1);
+                this.destroyed = true;
+                return true;
+            } else {
+                // Si golpea otra cosa que no se debe dañar: no hacemos nada
+                return false;
+            }
+        } else { // bala enemiga -> daña a la nave del jugador
+            if (target instanceof Nave_Personaje) {
+                Destructible nave = (Destructible) target;
+                nave.recibirDanio(1);
+                this.destroyed = true;
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+    
     public void setTexture(Texture texture) {
         this.texture = texture;
         System.out.println("Textura asignada: " + (texture != null ? texture.getWidth() + "x" + texture.getHeight() : "NULL"));

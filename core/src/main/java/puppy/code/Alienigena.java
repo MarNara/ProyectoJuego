@@ -60,7 +60,8 @@ public class Alienigena extends Enemigo implements Disparos {
             
             System.out.println("🔫🔥🔥🔥 ALIEN DISPARANDO!");
             
-            balas.add(new Bullet(centroX, baseY, anguloDisparo, null));
+            //balas.add(new Bullet(centroX, baseY, anguloDisparo, null));
+            balas.add(new Bullet(centroX, baseY, anguloDisparo, null, false));
             
             if (sonidoDisparo != null) {
                 sonidoDisparo.play(0.3f); 

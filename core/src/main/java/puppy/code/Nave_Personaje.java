@@ -84,7 +84,8 @@ public class Nave_Personaje extends Entidad implements Disparos, Destructible {
             float puntaY = spr.getY() + spr.getHeight() / 2f + MathUtils.sin(rad) * spr.getHeight() / 2f;
 
             // La bala de la nave tiene ángulo 90f (o el que sea para apuntar)
-            balas.add(new Bullet(puntaX, puntaY, anguloDisparo, txBala));
+            //balas.add(new Bullet(puntaX, puntaY, anguloDisparo, txBala));
+            balas.add(new Bullet(puntaX, puntaY, anguloDisparo, txBala, true));
             sonidoDisparo.play();
         }
     }
