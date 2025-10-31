@@ -80,7 +80,7 @@ public class PantallaJuego implements Screen {
         Random r = new Random();
         for (int i = 0; i < cantAsteroides; i++) {
             float size = 20 + r.nextInt(10);
-            int initialLife = 30;
+            int initialLife = 1;// >:C
             
             AsteroideHostil ah = new AsteroideHostil(
                 r.nextInt((int)Gdx.graphics.getWidth()),
