@@ -32,7 +32,6 @@ public class Bullet {
             this.speed = 200f;
             this.anchoVisual = 20f; //el tamaño de la textura
             this.altoVisual = 20f;
-            System.out.println(" BALA ALIEN - Tamaño: " + anchoVisual + "x" + altoVisual);
         } else { // Balas nave
             this.speed = 400f;
             this.anchoVisual = 8f;
@@ -42,7 +41,6 @@ public class Bullet {
     
     public void update() {
         if (destroyed) {
-            System.out.println("UPDATE: Bala destruida - no se actualiza");
             return;
         }
         
@@ -63,75 +61,29 @@ public class Bullet {
             y < -margen || y > pantallaAlto + margen) {
             
             destroyed = true;
-            System.out.println("Bala DESTRUIDA por salir de pantalla - Límites excedidos.");
         }
     }
     
     public void draw(SpriteBatch batch) {
-        System.out.println("Bullet.draw() - Destruida: " + destroyed + 
-                         " | Textura: " + (texture != null) + 
-                         " | Posición: " + x + ", " + y + 
-                         " | Ángulo: " + angle);
-        
         if (destroyed) {
-            System.out.println("NO se dibuja - Bala DESTRUIDA");
             return;
         }
-        
         if (texture == null) {
-            System.out.println("NO se dibuja - Textura NULL");
             return;
         }
-        
         float pantallaAncho = Gdx.graphics.getWidth();
         float pantallaAlto = Gdx.graphics.getHeight();
         
         boolean enPantalla = (x >= -anchoVisual && x <= pantallaAncho + anchoVisual &&
                              y >= -altoVisual && y <= pantallaAlto + altoVisual);
         
-        System.out.println("En pantalla: " + enPantalla + 
-                         " | Límites pantalla: " + pantallaAncho + "x" + pantallaAlto);
-        
         if (!enPantalla) {
-            System.out.println("NO se dibuja - FUERA DE PANTALLA");
             return;
         }
-        
+    
         if (destroyed || texture == null) return;
-        System.out.println("DIBUJANDO bala en: " + x + ", " + y + " | Tamaño: " + anchoVisual + "x" + altoVisual);
         batch.draw(texture, x, y, anchoVisual, altoVisual);
     }
-    /*
-
-    public boolean checkCollision(Entidad target) {
-        if (destroyed) return false;
-        
-        Rectangle r1 = new Rectangle(x, y, anchoVisual, altoVisual);
-        boolean colisiona = r1.overlaps(target.getArea());
-        
-        if (!colisiona) {
-            return false;
-        }
-
-        if (this.angle == -90f) {
-            if (target instanceof Nave_Personaje) {
-                Destructible nave = (Destructible)target;
-                nave.recibirDanio(1);
-                this.destroyed = true;
-                return true;
-            } else {
-                return false;
-            }
-        } else if (this.angle == 90f) { 
-            if (target instanceof Destructible && target instanceof Hostil) {
-                ((Destructible)target).recibirDanio(1);
-                this.destroyed = true;
-                return true;
-            }
-        }
-        return false;
-    }
-    */
     
     public boolean checkCollision(Entidad target) {
         if (destroyed) return false;
@@ -167,7 +119,6 @@ public class Bullet {
     
     public void setTexture(Texture texture) {
         this.texture = texture;
-        System.out.println("Textura asignada: " + (texture != null ? texture.getWidth() + "x" + texture.getHeight() : "NULL"));
     }
     
     public Texture getTexture() {

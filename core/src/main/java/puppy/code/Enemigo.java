@@ -22,13 +22,9 @@ public abstract class Enemigo extends Entidad implements Hostil, Destructible {
     @Override
     public void recibirDanio(int d) {
         if (estaActiva()) { // 🔹 Solo si está activo
-            System.out.println("Recibiendo daño: " + d + " - Vida antes: " + vida);
             this.vida -= d;
-            System.out.println("Vida después: " + vida);
-            
             if (this.vida <= 0) {
                 this.desactivar();
-                System.out.println("ENEMIGO DESTRUIDO - Vida: " + vida);
             }
         }
     }
