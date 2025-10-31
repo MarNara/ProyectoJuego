@@ -30,8 +30,8 @@ public class Bullet {
         
         if (angle == -90f) { // Balas alien
             this.speed = 200f;
-            this.anchoVisual = 26f; // 🔹 Usar el tamaño REAL de la textura
-            this.altoVisual = 26f;
+            this.anchoVisual = 20f; //el tamaño de la textura
+            this.altoVisual = 20f;
             System.out.println(" BALA ALIEN - Tamaño: " + anchoVisual + "x" + altoVisual);
         } else { // Balas nave
             this.speed = 400f;

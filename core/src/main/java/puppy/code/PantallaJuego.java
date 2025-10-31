@@ -93,17 +93,14 @@ public class PantallaJuego implements Screen {
             hostileEntities.add(ah);
         }
         
-        // 🔹 CARGAR TEXTURAS UNA SOLA VEZ
+        //CARGAR TEXTURAS UNA SOLA VEZ
         alienTexture = new Texture(Gdx.files.internal("alien.png"));
         alienBalaTexture = new Texture(Gdx.files.internal("alien_bullet3.png"));
         naveBalaTexture = new Texture(Gdx.files.internal("Rocket2.png"));
         
-        // 🔹 CREAR ALIENÍGENAS
+        //CREAR ALIENÍGENAS
         crearAliens();    
         
-        // Verificación de texturas
-        System.out.println("Textura bala alien cargada: " + 
-            alienBalaTexture.getWidth() + "x" + alienBalaTexture.getHeight());
     }
     
     private void crearAliens() {
@@ -185,9 +182,7 @@ public class PantallaJuego implements Screen {
             }
         }
         
-        // 5. ACTUALIZAR BALAS (SIN DUPLICACIÓN)
-        System.out.println("🎯 Balas activas: " + balas.size());
-        
+        // ACTUALIZAR BALAS (SIN DUPLICACIÓN)
         for (int i = 0; i < balas.size(); i++) {
             Bullet b = balas.get(i);
             
@@ -195,7 +190,6 @@ public class PantallaJuego implements Screen {
             if (b.getTexture() == null) {
                 Texture texturaUsar = (b.getAngle() == -90f) ? alienBalaTexture : naveBalaTexture;
                 b.setTexture(texturaUsar);
-                System.out.println("✅ TEXTURA ASIGNADA - Ángulo: " + b.getAngle());
             }
             
             b.update();
@@ -219,18 +213,20 @@ public class PantallaJuego implements Screen {
                 }
             }
             
+            //Colisión con la nave
+            b.checkCollision(nave);
+            
             // 🔹 DIBUJAR O REMOVER BALA (SOLO UNA VEZ)
             if (b.isDestroyed()) {
                 balas.remove(i);
                 i--;
-                System.out.println("🗑️ Bala removida - quedan: " + balas.size());
             } else {
-                System.out.println("➡️ Dibujando bala " + i);
-                b.draw(batch); // ← ✅ ÚNICO lugar donde se dibuja la bala
+                
+                b.draw(batch); //lugar donde se dibuja la bala
             }
         }
         
-        // 6. DIBUJAR NAVE
+        //DIBUJAR NAVE
         nave.dibujar(batch);
         
         batch.end(); // ← ✅ Batch.end() SOLO UNA VEZ al final

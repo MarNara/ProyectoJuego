@@ -43,22 +43,16 @@ public class Alienigena extends Enemigo implements Disparos {
         }
         
         tiempoUltimoDisparo += delta;
-        
-        System.out.println("👽 Alien actualizado - Pos: " + getX() + ", " + getY() + 
-                         " | Tiempo: " + tiempoUltimoDisparo + "/" + tiempoEntreDisparos);
     }
 
     @Override
     public void disparar(ArrayList<Bullet> balas) {
-        System.out.println("⏰ Alien.disparar() - Tiempo: " + tiempoUltimoDisparo + "/" + tiempoEntreDisparos);
         
         if (tiempoUltimoDisparo >= tiempoEntreDisparos && estaActiva() && getVida() > 0) {
             // 🔹 CORRECCIÓN: Usar getters para posición y dimensiones
             float centroX = getX() + getAncho() / 2f;
             float baseY = getY() + 5f;
             float anguloDisparo = -90f;
-            
-            System.out.println("🔫🔥🔥🔥 ALIEN DISPARANDO!");
             
             //balas.add(new Bullet(centroX, baseY, anguloDisparo, null));
             balas.add(new Bullet(centroX, baseY, anguloDisparo, null, false));
@@ -68,10 +62,7 @@ public class Alienigena extends Enemigo implements Disparos {
             }
             
             tiempoUltimoDisparo = 0f;
-        } else {
-            System.out.println("⏳ Alien NO puede disparar aún");
-        }
-    }
+        }     }
     
     @Override
     public void dibujar(SpriteBatch batch) {
