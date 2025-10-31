@@ -3,7 +3,7 @@ package puppy.code;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import java.util.ArrayList;
-
+/*El alienigena le genera daño a la nave*/
 public class Alienigena extends Enemigo implements Disparos {
     
     private float velocidadX = 100f;
@@ -29,7 +29,7 @@ public class Alienigena extends Enemigo implements Disparos {
     public void actualizar(float delta) {
         if (!estaActiva()) return;
         
-        // 🔹 CORRECCIÓN: Usar getters y setters en lugar de acceso directo
+        // Usar getters y setters en esta parte
         float nuevaX = getX() + velocidadX * direccion * delta;
         setX(nuevaX);
         
@@ -49,12 +49,11 @@ public class Alienigena extends Enemigo implements Disparos {
     public void disparar(ArrayList<Bullet> balas) {
         
         if (tiempoUltimoDisparo >= tiempoEntreDisparos && estaActiva() && getVida() > 0) {
-            // 🔹 CORRECCIÓN: Usar getters para posición y dimensiones
+            // Usar getters para posición y dimensiones
             float centroX = getX() + getAncho() / 2f;
             float baseY = getY() + 5f;
             float anguloDisparo = -90f;
             
-            //balas.add(new Bullet(centroX, baseY, anguloDisparo, null));
             balas.add(new Bullet(centroX, baseY, anguloDisparo, null, false));
             
             if (sonidoDisparo != null) {
@@ -69,7 +68,7 @@ public class Alienigena extends Enemigo implements Disparos {
         // Vacío - renderizado por PantallaJuego
     }
     
-    // 🔹 GETTERS para debug
+    //GETTERS para debug
     public float getTiempoUltimoDisparo() { return tiempoUltimoDisparo; }
     public float getTiempoEntreDisparos() { return tiempoEntreDisparos; }
     public float getVelocidadX() { return velocidadX; }

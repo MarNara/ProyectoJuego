@@ -16,11 +16,11 @@ public class Bullet {
     //RAFA AGREGO AQUI
     private boolean fromPlayer;
     
-    // 🔹 USAR VARIABLES DIRECTAS, no métodos
+    // USAR VARIABLES DIRECTAS, no métodos
     private float anchoVisual;
     private float altoVisual;
 
-    // En Bullet constructor - forzar tamaño VISIBLE:
+    // En Bullet constructor - forzar tamaño visible:
     public Bullet(float x, float y, float angle, Texture texture, boolean fromPlayer) {
         this.x = x;
         this.y = y;
@@ -102,7 +102,7 @@ public class Bullet {
                 this.destroyed = true;
                 return true;
             } else {
-                // Si golpea otra cosa que no se debe dañar: no hacemos nada
+                // Si golpea otra cosa que no se debe dañar, no se hace nada
                 return false;
             }
         } else { // bala enemiga -> daña a la nave del jugador
@@ -137,6 +137,7 @@ public class Bullet {
         this.destroyed = true;
     }
     
+    //getters y setters
     public float getX() { return x; }
     public float getY() { return y; }
     public float getSpeed() { return speed; }

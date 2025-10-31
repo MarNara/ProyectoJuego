@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
 public abstract class Entidad {
-    // 🔹 ATRIBUTOS PRIVADOS (encapsulamiento correcto)
+    //ATRIBUTOS PRIVADOS ENCAPSULAMIENTO
     private float x;        
     private float y;        
     private float ancho;    
@@ -20,7 +20,7 @@ public abstract class Entidad {
         this.activa = true;
     }
 
-    // 🔹 MÉTODOS PÚBLICOS (interfaz controlada)
+    //MÉTODOS PÚBLICOS (interfaz controlada)
     public Rectangle getArea() {
         return new Rectangle(x, y, ancho, alto);
     }
@@ -33,13 +33,13 @@ public abstract class Entidad {
         this.activa = false;
     }
     
-    // 🔹 GETTERS (acceso controlado)
+    //GETTERS (acceso controlado)
     public float getX() { return x; }
     public float getY() { return y; }
     public float getAncho() { return ancho; }
     public float getAlto() { return alto; }
     
-    // 🔹 SETTERS (modificación controlada)
+    //SETTERS (modificación controlada)
     public void setX(float x) { this.x = x; }
     public void setY(float y) { this.y = y; }
     public void setPosicion(float x, float y) {
@@ -54,7 +54,7 @@ public abstract class Entidad {
     
     public void setActiva(boolean activa) { this.activa = activa; }
     
-    // 🔹 MÉTODOS ABSTRACTOS
+    //MÉTODOS ABSTRACTOS
     public abstract void actualizar(float delta);
     public abstract void dibujar(SpriteBatch batch);
 }

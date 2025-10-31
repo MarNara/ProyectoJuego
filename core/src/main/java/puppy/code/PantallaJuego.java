@@ -120,7 +120,7 @@ public class PantallaJuego implements Screen {
                 naveDisparoSound
             );
             
-            // 🔹 CORRECCIÓN: Agregar el alien a la lista global
+            //Agregar el alien a la lista global
             hostileEntities.add(alien); 
         }
     }
@@ -135,21 +135,21 @@ public class PantallaJuego implements Screen {
     
     @Override
     public void render(float delta) {
-        // 1. LIMPIAR PANTALLA
+        //LIMPIAR PANTALLA
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         
-        // 2. DIBUJAR FONDO Y ENCABEZADO
+        //DIBUJAR FONDO Y ENCABEZADO
         batch.draw(fondoGalaxia, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         dibujaEncabezado();
 
-        // 3. ACTUALIZAR NAVE
+        //ACTUALIZAR NAVE
         nave.actualizar(delta); 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             nave.disparar(balas);
         }
 
-        // 4. ACTUALIZAR Y DISPARAR HOSTILES
+        //ACTUALIZAR Y DISPARAR HOSTILES
         for (int i = 0; i < hostileEntities.size(); i++) {
             Entidad e = hostileEntities.get(i);
             e.actualizar(delta);
@@ -186,7 +186,7 @@ public class PantallaJuego implements Screen {
         for (int i = 0; i < balas.size(); i++) {
             Bullet b = balas.get(i);
             
-            // 🔹 ASIGNAR TEXTURA UNA SOLA VEZ AL PRINCIPIO
+            // ASIGNAR TEXTURA UNA SOLA VEZ AL PRINCIPIO
             if (b.getTexture() == null) {
                 Texture texturaUsar = (b.getAngle() == -90f) ? alienBalaTexture : naveBalaTexture;
                 b.setTexture(texturaUsar);
@@ -216,7 +216,7 @@ public class PantallaJuego implements Screen {
             //Colisión con la nave
             b.checkCollision(nave);
             
-            // 🔹 DIBUJAR O REMOVER BALA (SOLO UNA VEZ)
+            // DIBUJAR O REMOVER BALA (SOLO UNA VEZ)
             if (b.isDestroyed()) {
                 balas.remove(i);
                 i--;
@@ -229,9 +229,9 @@ public class PantallaJuego implements Screen {
         //DIBUJAR NAVE
         nave.dibujar(batch);
         
-        batch.end(); // ← ✅ Batch.end() SOLO UNA VEZ al final
+        batch.end(); //final
 
-        // 7. TRANSICIONES (FUERA del batch)
+        // TRANSICIONES (FUERA del batch)
         if (nave.estaDestruido()) {
             if (score > game.getHighScore()) game.setHighScore(score);
             Screen ss = new PantallaGameOver(game);
@@ -279,7 +279,7 @@ public class PantallaJuego implements Screen {
         this.explosionSound.dispose();
         this.gameMusic.dispose();
         
-        // 🔹 DISPOSICIÓN DE TODAS las texturas
+        //DISPOSICIÓN DE TODAS las texturas
         if (asteroideTexture != null) asteroideTexture.dispose();
         if (alienTexture != null) alienTexture.dispose();
         if (alienBalaTexture != null) alienBalaTexture.dispose();

@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import java.util.ArrayList;
 
-// 🔹 CLAVE: La nave hereda de Entidad e IMPLEMENTA Destructible y Disparos
+// La nave hereda de Entidad e IMPLEMENTA Destructible y Disparos
 public class Nave_Personaje extends Entidad implements Disparos, Destructible {
 
     private boolean destruida = false;
@@ -40,7 +40,7 @@ public class Nave_Personaje extends Entidad implements Disparos, Destructible {
 
     @Override
     public void actualizar(float delta) {
-        // ... (Lógica de movimiento y tiempoHerido - Se mantiene igual)
+        // Lógica de movimiento y tiempoHerido
         if (!herido) {
             // Lógica de movimiento y rotación
             if (Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT)) rotacion += velocidadRotacion * delta;
@@ -83,17 +83,13 @@ public class Nave_Personaje extends Entidad implements Disparos, Destructible {
             float puntaX = spr.getX() + spr.getWidth() / 2f + MathUtils.cos(rad) * spr.getHeight() / 2f;
             float puntaY = spr.getY() + spr.getHeight() / 2f + MathUtils.sin(rad) * spr.getHeight() / 2f;
 
-            // La bala de la nave tiene ángulo 90f (o el que sea para apuntar)
-            //balas.add(new Bullet(puntaX, puntaY, anguloDisparo, txBala));
             balas.add(new Bullet(puntaX, puntaY, anguloDisparo, txBala, true));
             sonidoDisparo.play();
         }
     }
     
-    // ==========================================================
-    // 🔹 IMPLEMENTACIÓN DE INTERFAZ DESTRUCTIBLE (CLAVE PARA EL DESACOPLAMIENTO)
-    // ==========================================================
 
+    //IMPLEMENTACIÓN DE INTERFAZ DESTRUCTIBLE 
     @Override
     public int getVida() { 
         return vidas; 
@@ -129,7 +125,7 @@ public class Nave_Personaje extends Entidad implements Disparos, Destructible {
             // y la nave USA SU PROPIA LÓGICA de ser herida.
             this.recibirDanio(1); 
             
-            // Si el enemigo también es Destructible, puedes destruirlo al chocar:
+            // Si el enemigo también es Destructible se destruye al chocar
             if (enemigo instanceof Destructible) {
                 ((Destructible)enemigo).recibirDanio(9999); // Destrucción instantánea por choque
             } else {
@@ -140,8 +136,8 @@ public class Nave_Personaje extends Entidad implements Disparos, Destructible {
         return false;
     }
 
-    // --- Getters y setters (se mantienen y se alinean con Destructible) ---
-    // ... (restos de getters y setters)
+    //Getters y setters (se mantienen y se alinean con Destructible) ---
+    //restos de getters y setters
     public int getVidas() { return vidas; }
     public void setVidas(int vidas) { this.vidas = vidas; }
     public float getX() { return spr.getX(); }

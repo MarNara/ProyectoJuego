@@ -13,7 +13,7 @@ public abstract class Enemigo extends Entidad implements Hostil, Destructible {
         this.vida = vidaInicial;
     }
 
-    // 🔹 Implementación de Destructible (Lógica de vida compartida)
+    // Implementación de Destructible (Lógica de vida compartida)
     @Override
     public int getVida() {
         return vida;
@@ -21,7 +21,7 @@ public abstract class Enemigo extends Entidad implements Hostil, Destructible {
 
     @Override
     public void recibirDanio(int d) {
-        if (estaActiva()) { // 🔹 Solo si está activo
+        if (estaActiva()) { //Solo si está activo
             this.vida -= d;
             if (this.vida <= 0) {
                 this.desactivar();
@@ -34,7 +34,7 @@ public abstract class Enemigo extends Entidad implements Hostil, Destructible {
         return !estaActiva(); 
     }
 
-    // 🔹 Implementación de Hostil (Lógica de recompensa compartida)
+    //Implementación de Hostil (Lógica de recompensa compartida)
     @Override
     public int getPuntosPorDestruccion() {
         return puntosBase;

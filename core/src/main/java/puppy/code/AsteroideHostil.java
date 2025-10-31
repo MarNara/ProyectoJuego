@@ -3,11 +3,12 @@ package puppy.code;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.Gdx;
 
+/*Está clase representa los asteroides que le hacen daño a la nave*/
 public class AsteroideHostil extends Enemigo {
 
     private int xSpeed;
     private int ySpeed;
-
+    //constructor de asteroide hostil
     public AsteroideHostil(float x, float y, float size, int vidaInicial, int xSpeed, int ySpeed) {
         super(x, y, size, size, vidaInicial);
         this.xSpeed = xSpeed;
@@ -46,7 +47,7 @@ public class AsteroideHostil extends Enemigo {
             ySpeed = -ySpeed; 
         }
     }
-
+    //colisiones de asteroides(las rocas)
     public void checkCollision(AsteroideHostil otra) {
         if (!estaActiva() || !otra.estaActiva()) return;
         
