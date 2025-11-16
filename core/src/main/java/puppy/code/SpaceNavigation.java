@@ -13,8 +13,23 @@ public class SpaceNavigation extends Game {
 	private SpriteBatch batch;
 	private BitmapFont font;
 	private int highScore;	
+	private static SpaceNavigation instance; //GM2.1
 
+	private SpaceNavigation(){}//GM2.1
+	
+	/*GM2.1*/
+	public static SpaceNavigation getInstance() {
+        if (instance == null) {
+            instance = new SpaceNavigation();
+        }
+        return instance;
+    }
+	
+	@Override
 	public void create() {
+		if (instance == null) {
+            instance = this;//GM2.1
+        }
 		highScore = 0;
 		batch = new SpriteBatch();
 		font = new BitmapFont(); // usa Arial font x defecto

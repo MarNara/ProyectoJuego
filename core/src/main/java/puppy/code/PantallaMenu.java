@@ -8,6 +8,8 @@ import com.badlogic.gdx.Screen;
 
 public class PantallaMenu extends AbstractScreen {
 
+	
+	
 	public PantallaMenu(SpaceNavigation game) {
 		super(game, 0, 0, 0.2f);
 	}
@@ -26,11 +28,17 @@ public class PantallaMenu extends AbstractScreen {
 
 	@Override
 	protected void checkTransitions(float delta) {
-		// Mover aquí la lógica que cambia de pantalla
+		// Implementación de Template Method
 		if (Gdx.input.isTouched() || Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) {
-			Screen ss = new PantallaJuego(game, 1, 3, 0, 1, 1, 10);
-			// ss.resize(1200, 800); // Mover a resize()
-			game.setScreen(ss);
+			//GM2.1
+			SpaceNavigation gameInstance = SpaceNavigation.getInstance();
+			
+			// Se necesitará aplicar el Abstract Factory (GM2.4) para crear PantallaJuego limpiamente, 
+            // pero por ahora mantenemos el constructor explícito:
+            // La factory del juego no se pasa aquí
+			Screen ss = new PantallaJuego(gameInstance, 1, 3, 0, 1, 1, 10); 
+			
+			gameInstance.setScreen(ss); // Usando el Singleton
 			dispose();
 		}
 	}
