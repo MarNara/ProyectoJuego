@@ -13,7 +13,7 @@ public class Alienigena extends Enemigo implements Disparos {
     private Sound sonidoDisparo;
 
     public Alienigena(float x, float y, float ancho, float alto, int vidaInicial, Sound sonidoDisparo) {
-        super(x, y, ancho, alto, vidaInicial);
+        super(x, y, ancho, alto, vidaInicial, new AlienMovimiento());
         this.sonidoDisparo = sonidoDisparo;
     }
     
@@ -27,21 +27,10 @@ public class Alienigena extends Enemigo implements Disparos {
 
     @Override
     public void actualizar(float delta) {
-        if (!estaActiva()) return;
+        // 1. Ejecuta el movimiento (a través de Entidad -> AlienMovement)
+        super.actualizar(delta); 
         
-        // Usar getters y setters en esta parte
-        float nuevaX = getX() + velocidadX * direccion * delta;
-        setX(nuevaX);
-        
-        // Rebote en bordes de pantalla
-        if (getX() <= 0) {
-            setX(0);
-            direccion = 1f;
-        } else if (getX() + getAncho() >= 800) { 
-            setX(800 - getAncho());
-            direccion = -1f;
-        }
-        
+        // 2. Mantiene la lógica de tiempo/disparo (que NO es movimiento)
         tiempoUltimoDisparo += delta;
     }
 
@@ -69,6 +58,8 @@ public class Alienigena extends Enemigo implements Disparos {
     }
     
     //GETTERS para debug
+    public float getDireccion() { return direccion; }//getters para el campo direccion
+    public void setDireccion(float direccion) { this.direccion = direccion; }//setters para el campo direccion
     public float getTiempoUltimoDisparo() { return tiempoUltimoDisparo; }
     public float getTiempoEntreDisparos() { return tiempoEntreDisparos; }
     public float getVelocidadX() { return velocidadX; }

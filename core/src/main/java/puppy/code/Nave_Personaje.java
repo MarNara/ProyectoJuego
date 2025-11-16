@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
+//import com.badlogic.gdx.math.Rectangle;
 import java.util.ArrayList;
 
 // La nave hereda de Entidad e IMPLEMENTA Destructible y Disparos
@@ -29,7 +29,7 @@ public class Nave_Personaje extends Entidad implements Disparos, Destructible {
     private Texture txBala;
 
     public Nave_Personaje(float x, float y, Texture textura, Texture txBala, Sound sonidoDisparo, Sound sonidoHerido) {
-        super(x, y, textura.getWidth(), textura.getHeight());
+        super(x, y, textura.getWidth(), textura.getHeight(), new NaveMovimiento());
         this.spr = new Sprite(textura);
         this.spr.setPosition(x, y);
         this.spr.setOriginCenter();
@@ -40,33 +40,39 @@ public class Nave_Personaje extends Entidad implements Disparos, Destructible {
 
     @Override
     public void actualizar(float delta) {
-        // Lógica de movimiento y tiempoHerido
-        if (!herido) {
-            // Lógica de movimiento y rotación
-            if (Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT)) rotacion += velocidadRotacion * delta;
-            if (Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)) rotacion -= velocidadRotacion * delta;
+        // Delega la ejecución a NaveMovimiento
+        super.actualizar(delta); 
+    }
+    
+    // MÉTODO 1: Contiene la lógica de input y movimiento
+    public void handlePlayerInputMovement(float delta) {
+        // Lógica de movimiento y rotación (Extraída del original)
+        if (Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT)) rotacion += velocidadRotacion * delta;
+        if (Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)) rotacion -= velocidadRotacion * delta;
 
-            // Normalizar rotación y movimiento
-            if (rotacion > 360) rotacion -= 360;
-            if (rotacion < -360) rotacion += 360;
-            spr.setRotation(rotacion);
+        // Normalizar rotación y movimiento
+        if (rotacion > 360) rotacion -= 360;
+        if (rotacion < -360) rotacion += 360;
+        spr.setRotation(rotacion);
 
-            if (Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP)) {
-                float rad = (rotacion + 90f) * MathUtils.degreesToRadians;
-                float dx = MathUtils.cos(rad) * velocidadMovimiento * delta;
-                float dy = MathUtils.sin(rad) * velocidadMovimiento * delta;
-                spr.translate(dx, dy);
-            }
-
-            // Limitar dentro de pantalla
-            spr.setX(Math.max(0, Math.min(spr.getX(), Gdx.graphics.getWidth() - spr.getWidth())));
-            spr.setY(Math.max(0, Math.min(spr.getY(), Gdx.graphics.getHeight() - spr.getHeight())));
-        } else {
-            // Lógica de temblor al ser herido
-            spr.setX(spr.getX() + MathUtils.random(-2, 2));
-            tiempoHerido--;
-            if (tiempoHerido <= 0) herido = false;
+        if (Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP)) {
+            float rad = (rotacion + 90f) * MathUtils.degreesToRadians;
+            float dx = MathUtils.cos(rad) * velocidadMovimiento * delta;
+            float dy = MathUtils.sin(rad) * velocidadMovimiento * delta;
+            spr.translate(dx, dy);
         }
+
+        // Limitar dentro de pantalla
+        spr.setX(Math.max(0, Math.min(spr.getX(), Gdx.graphics.getWidth() - spr.getWidth())));
+        spr.setY(Math.max(0, Math.min(spr.getY(), Gdx.graphics.getHeight() - spr.getHeight())));
+    }
+    
+    // MÉTODO 2: Contiene la lógica del efecto de ser herido
+    public void handleHurtEffect() {
+        // Lógica de temblor al ser herido (Extraída del original)
+        spr.setX(spr.getX() + MathUtils.random(-2, 2));
+        tiempoHerido--;
+        if (tiempoHerido <= 0) herido = false;
     }
 
     @Override
@@ -136,8 +142,8 @@ public class Nave_Personaje extends Entidad implements Disparos, Destructible {
         return false;
     }
 
-    //Getters y setters (se mantienen y se alinean con Destructible) ---
     //restos de getters y setters
+    public boolean getHerido() { return herido; }//Necesario para que NaveMovimiento verifique el estado
     public int getVidas() { return vidas; }
     public void setVidas(int vidas) { this.vidas = vidas; }
     public float getX() { return spr.getX(); }
