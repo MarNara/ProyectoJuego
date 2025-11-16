@@ -3,78 +3,47 @@ package puppy.code;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.utils.ScreenUtils;
 
 
-public class PantallaGameOver implements Screen {
-
-	private SpaceNavigation game;
-	private OrthographicCamera camera;
+public class PantallaGameOver extends AbstractScreen {
 
 	public PantallaGameOver(SpaceNavigation game) {
-		this.game = game;
-        
-		camera = new OrthographicCamera();
-		camera.setToOrtho(false, 1200, 800);
+		super(game, 0, 0, 0.2f);
 	}
-
-	@Override
-	public void render(float delta) {
-		ScreenUtils.clear(0, 0, 0.2f, 1);
-
-		camera.update();
-		game.getBatch().setProjectionMatrix(camera.combined);
-
-		game.getBatch().begin();
-		game.getFont().draw(game.getBatch(), "Game Over !!! ", 120, 400,400,1,true);
-		game.getFont().draw(game.getBatch(), "Pincha en cualquier lado para reiniciar ...", 100, 300);
 	
-		game.getBatch().end();
-
+	@Override
+	protected void updateLogic(float delta) {
+		// Esta pantalla no tiene lógica de juego, solo revisa input para transición.
+		// Dejamos eso para checkTransitions.
+	}
+	
+	@Override
+	protected void drawContent(float delta) {
+		// Mover aquí solo las líneas de dibujado (las que estaban entre begin/end)
+		game.getFont().draw(game.getBatch(), "Game Over !!! ", 120, 400, 400, 1, true);
+		game.getFont().draw(game.getBatch(), "Pincha en cualquier lado para reiniciar ...", 100, 300);
+	}
+	
+	@Override
+	protected void checkTransitions(float delta) {
+		// Mover aquí la lógica que cambia de pantalla
 		if (Gdx.input.isTouched() || Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) {
-			Screen ss = new PantallaJuego(game,1,3,0,1,1,10);
-			ss.resize(1200, 800);
+			// NOTA: El AbstractScreen no maneja el re-dimensionamiento fijo (1200, 800)
+			// Deberías manejar el re-dimensionamiento en el método resize()
+			Screen ss = new PantallaJuego(game, 1, 3, 0, 1, 1, 10);
+			// ss.resize(1200, 800); // Esta línea se puede mover al método resize de PantallaJuego
 			game.setScreen(ss);
 			dispose();
 		}
 	}
- 
+	
+	// 7. ELIMINAR MÉTODOS VACÍOS (show, resize, pause, etc.)
+	// Ya están implementados (vacíos) en AbstractScreen
 	
 	@Override
-	public void show() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void resume() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void hide() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-		
+		// El dispose sí debe mantenerse si libera recursos
+		// (En este caso, no hay nada que liberar)
 	}
-   
 }
+	

@@ -7,17 +7,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.Input;
 
-public class PantallaJuego implements Screen {
-
-    private SpaceNavigation game;
-    private OrthographicCamera camera;    
-    private SpriteBatch batch;
+public class PantallaJuego extends AbstractScreen {
+	
     private Texture fondoGalaxia;
     private Sound explosionSound;
     private Music gameMusic;
@@ -41,16 +35,12 @@ public class PantallaJuego implements Screen {
 
     public PantallaJuego(SpaceNavigation game, int ronda, int vidas, int score,  
             int velXAsteroides, int velYAsteroides, int cantAsteroides) {
-        this.game = game;
+        super(game);
         this.ronda = ronda;
         this.score = score;
         this.velXAsteroides = velXAsteroides;
         this.velYAsteroides = velYAsteroides;
         this.cantAsteroides = cantAsteroides;
-        
-        batch = game.getBatch();
-        camera = new OrthographicCamera();    
-        camera.setToOrtho(false, 800, 640);
         
         //inicializar assets; musica de fondo y efectos de sonido
         explosionSound = Gdx.audio.newSound(Gdx.files.internal("explosion.ogg"));
@@ -134,32 +124,22 @@ public class PantallaJuego implements Screen {
     }
     
     @Override
-    public void render(float delta) {
-        //LIMPIAR PANTALLA
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.begin();
+    protected void updateLogic(float delta) {
+        // Mover aquí TODA la lógica de actualización, input y colisiones
         
-        //DIBUJAR FONDO Y ENCABEZADO
-        batch.draw(fondoGalaxia, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        dibujaEncabezado();
-
-        //ACTUALIZAR NAVE
+        // ACTUALIZAR NAVE (Input y Lógica)
         nave.actualizar(delta); 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             nave.disparar(balas);
         }
 
-        //ACTUALIZAR Y DISPARAR HOSTILES
+        // ACTUALIZAR Y DISPARAR HOSTILES (Lógica y Colisiones)
         for (int i = 0; i < hostileEntities.size(); i++) {
             Entidad e = hostileEntities.get(i);
             e.actualizar(delta);
             
-            // RENDER HOSTILES
-            if (e instanceof AsteroideHostil) {
-                batch.draw(asteroideTexture, e.getX(), e.getY(), e.getAncho(), e.getAlto());
-            } else if (e instanceof Alienigena) {
-                batch.draw(alienTexture, e.getX(), e.getY(), e.getAncho(), e.getAlto());
-                // Disparos automáticos
+            // Disparos automáticos (Lógica)
+            if (e instanceof Alienigena) {
                 ((Alienigena)e).disparar(balas);
             }
             
@@ -182,11 +162,10 @@ public class PantallaJuego implements Screen {
             }
         }
         
-        // ACTUALIZAR BALAS (SIN DUPLICACIÓN)
+        // ACTUALIZAR BALAS (Lógica y Colisiones)
         for (int i = 0; i < balas.size(); i++) {
             Bullet b = balas.get(i);
             
-            // ASIGNAR TEXTURA UNA SOLA VEZ AL PRINCIPIO
             if (b.getTexture() == null) {
                 Texture texturaUsar = (b.getAngle() == -90f) ? alienBalaTexture : naveBalaTexture;
                 b.setTexture(texturaUsar);
@@ -199,13 +178,9 @@ public class PantallaJuego implements Screen {
                 Entidad e = hostileEntities.get(j);
                 if (b.checkCollision(e)) {
                     explosionSound.play(0.1f);
-                    
-                    // Lógica de Puntuación
                     if (e instanceof Hostil && !e.estaActiva()) { 
                         score += ((Hostil)e).getPuntosPorDestruccion();
                     }
-                    
-                    // Si la entidad está inactiva, la removemos
                     if (!e.estaActiva()) {
                         hostileEntities.remove(j);
                         j--;
@@ -213,29 +188,51 @@ public class PantallaJuego implements Screen {
                 }
             }
             
-            //Colisión con la nave
             b.checkCollision(nave);
             
-            // DIBUJAR O REMOVER BALA (SOLO UNA VEZ)
             if (b.isDestroyed()) {
                 balas.remove(i);
                 i--;
-            } else {
-                
-                b.draw(batch); //lugar donde se dibuja la bala
             }
+        }
+    }
+
+    @Override
+    protected void drawContent(float delta) {
+        // Mover aquí SÓLO el código de dibujado
+        
+        //DIBUJAR FONDO Y ENCABEZADO
+        batch.draw(fondoGalaxia, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        dibujaEncabezado();
+
+        // DIBUJAR HOSTILES
+        // (Esto requiere un nuevo bucle, lo cual es normal en esta separación)
+        for (Entidad e : hostileEntities) {
+            if (e instanceof AsteroideHostil) {
+                batch.draw(asteroideTexture, e.getX(), e.getY(), e.getAncho(), e.getAlto());
+            } else if (e instanceof Alienigena) {
+                batch.draw(alienTexture, e.getX(), e.getY(), e.getAncho(), e.getAlto());
+            }
+        }
+        
+        // DIBUJAR BALAS
+        // (Nuevo bucle)
+        for (Bullet b : balas) {
+            b.draw(batch); //lugar donde se dibuja la bala
         }
         
         //DIBUJAR NAVE
         nave.dibujar(batch);
-        
-        batch.end(); //final
+    }
 
-        // TRANSICIONES (FUERA del batch)
+    @Override
+    protected void checkTransitions(float delta) {
+        // Mover aquí la lógica que cambia de pantalla
+        
         if (nave.estaDestruido()) {
             if (score > game.getHighScore()) game.setHighScore(score);
             Screen ss = new PantallaGameOver(game);
-            ss.resize(1200, 800);
+            // ss.resize(1200, 800);
             game.setScreen(ss);
             dispose();
         }
@@ -243,46 +240,38 @@ public class PantallaJuego implements Screen {
         if (hostileEntities.isEmpty()) { 
             Screen ss = new PantallaJuego(game, ronda + 1, nave.getVidas(), score,
                     velXAsteroides + 3, velYAsteroides + 3, cantAsteroides + 10);
-            ss.resize(1200, 800);
+            // ss.resize(1200, 800);
             game.setScreen(ss);
             dispose();
         }
     }
-    public boolean agregarBala(Bullet bb) {
-        return balas.add(bb);
-    }
+    
+    // ... (agregarBala se mantiene)
+    
+    // 7. ELIMINAR MÉTODOS VACÍOS (resize, pause, resume, hide)
     
     @Override
     public void show() {
+        // Este SÍ tenía lógica, así que se mantiene
         gameMusic.play();
     }
-
-    @Override
-    public void resize(int width, int height) {
-    }
-
-    @Override
-    public void pause() {
-    }
-
-    @Override
-    public void resume() {
-    }
-
-    @Override
-    public void hide() {
-    }
-
+    
     @Override
     public void dispose() {
+        // Este SÍ tenía lógica, así que se mantiene
         this.fondoGalaxia.dispose();
         this.explosionSound.dispose();
         this.gameMusic.dispose();
         
-        //DISPOSICIÓN DE TODAS las texturas
         if (asteroideTexture != null) asteroideTexture.dispose();
         if (alienTexture != null) alienTexture.dispose();
         if (alienBalaTexture != null) alienBalaTexture.dispose();
         if (naveBalaTexture != null) naveBalaTexture.dispose();
     }
+    
+    
+    public boolean agregarBala(Bullet bb) {
+        return balas.add(bb);
+    }
+    
 }
