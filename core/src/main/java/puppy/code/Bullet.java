@@ -28,7 +28,7 @@ public class Bullet {
         this.texture = texture;
         this.fromPlayer = fromPlayer;
         
-        if (angle == -90f) { // Balas alien
+        if (!fromPlayer) { // Balas alien
             this.speed = 200f;
             this.anchoVisual = 20f; //el tamaño de la textura
             this.altoVisual = 20f;

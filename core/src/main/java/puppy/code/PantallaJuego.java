@@ -64,31 +64,33 @@ public class PantallaJuego extends AbstractScreen {
             Gdx.audio.newSound(Gdx.files.internal("hurt.ogg"))
         );
         nave.setVidas(vidas);
-
-        //crear asteroides
-        Random r = new Random();
+     //============================================================
+        // APLICACIÓN DE ABSTRACT FACTORY (GM2.4)
+        
+        // 1. Crear Fábrica de Asteroides
+        FabricaEnemigos fabricaRocas = new FabricaAsteroides(velXAsteroides, velYAsteroides);
+        
+        // 2. Crear Fábrica de Aliens (Le pasamos la nave para las estrategias)
+        FabricaEnemigos fabricaAliens = new FabricaAliens(ronda, disparoSound, nave);
+        
+        // 3. Generar Asteroides usando su fábrica
         for (int i = 0; i < cantAsteroides; i++) {
-            float size = 40 + r.nextInt(15);
-            int initialLife = 1;// >:C
-            
-            AsteroideHostil ah = new AsteroideHostil(
-                r.nextInt((int)Gdx.graphics.getWidth()),
-                50 + r.nextInt((int)Gdx.graphics.getHeight() - 50),
-                size,
-                initialLife,
-                velXAsteroides + r.nextInt(4), 
-                velYAsteroides + r.nextInt(4)
-            );       
-            hostileEntities.add(ah);
+            hostileEntities.add(fabricaRocas.crearEnemigo());
         }
         
+        // 4. Generar Aliens usando su fábrica
+        // Calculamos cantidad de aliens según la ronda (Lógica que estaba en crearAliens)
+        int cantAliens = (ronda == 3) ? 2 : (3 + ronda);
+        
+        for (int i = 0; i < cantAliens; i++) {
+            hostileEntities.add(fabricaAliens.crearEnemigo());
+        }
+        //============================================================
+    
         //CARGAR TEXTURAS UNA SOLA VEZ
         alienTexture = new Texture(Gdx.files.internal("alienSinFondo.png"));
         alienBalaTexture = new Texture(Gdx.files.internal("alien_bullet3.png"));
-        naveBalaTexture = new Texture(Gdx.files.internal("Rocket2.png"));
-        
-        //CREAR ALIENÍGENAS
-        crearAliens();    
+        naveBalaTexture = new Texture(Gdx.files.internal("Rocket2.png")); 
         
     }
     
