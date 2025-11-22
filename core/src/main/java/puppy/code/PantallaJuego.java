@@ -65,30 +65,27 @@ public class PantallaJuego extends AbstractScreen {
         );
         nave.setVidas(vidas);
      // ============================================================
-        // APLICACIÓN CORRECTA DE ABSTRACT FACTORY (GM2.4)
-        
+        //(GM2.4)
         FabricaNivel fabricaDelNivel;
-
+        
         if (ronda == 1) {
-
             fabricaDelNivel = new FabricaNivel1(disparoSound, nave);
         } else {
             fabricaDelNivel = new FabricaNivelAvanzado(disparoSound, nave, ronda);
         }
         
+        
 
         for (int i = 0; i < cantAsteroides; i++) {
-            AsteroideHostil asteroide = fabricaDelNivel.crearAsteroide();
-            hostileEntities.add(asteroide);
+            hostileEntities.add(fabricaDelNivel.crearAsteroide());
         }
         
         int cantAliens = (ronda == 3) ? 2 : (3 + ronda);
-        
         for (int i = 0; i < cantAliens; i++) {
-            Alienigena alien = fabricaDelNivel.crearAlien();
-            hostileEntities.add(alien);
+            hostileEntities.add(fabricaDelNivel.crearAlien());
         }
-    
+        
+        // ============================================================    
         //CARGAR TEXTURAS UNA SOLA VEZ
         alienTexture = new Texture(Gdx.files.internal("alienSinFondo.png"));
         alienBalaTexture = new Texture(Gdx.files.internal("alien_bullet3.png"));

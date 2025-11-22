@@ -1,8 +1,7 @@
 package puppy.code;
 
-// ABSTRACT FACTORY
 public interface FabricaNivel {
-    // Métodos para crear los distintos productos de la familia "Nivel"
+    // La familia de productos que define un nivel
     AsteroideHostil crearAsteroide();
     Alienigena crearAlien();
 }

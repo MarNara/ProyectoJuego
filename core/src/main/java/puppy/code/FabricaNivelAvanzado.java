@@ -19,14 +19,14 @@ public class FabricaNivelAvanzado implements FabricaNivel {
     @Override
     public AsteroideHostil crearAsteroide() {
         Random r = new Random();
-        float size = 30 + r.nextInt(20); // Tamaños más variados
-        // Nivel Avanzado: Asteroides Rápidos
+        float size = 30 + r.nextInt(20); 
+        // PRODUCTO A2: Asteroide Rápido
         return new AsteroideHostil(
             r.nextInt(Gdx.graphics.getWidth()),
             50 + r.nextInt(Gdx.graphics.getHeight() - 50),
             size,
             2, // Más vida
-            5 + r.nextInt(5), // MUCHO MÁS RÁPIDOS
+            5 + r.nextInt(5), // RÁPIDO
             5 + r.nextInt(5)
         );
     }
@@ -34,15 +34,16 @@ public class FabricaNivelAvanzado implements FabricaNivel {
     @Override
     public Alienigena crearAlien() {
         Random r = new Random();
+        // PRODUCTO B2: Alien Avanzado
         Alienigena alien = new Alienigena(
             r.nextInt(Gdx.graphics.getWidth() - 50),
             400 + r.nextInt(200),
             40, 40,
-            2 + ronda, // Vida escala
+            2 + ronda, 
             sonidoDisparo
         );
         
-        // Configuración de FAMILIA Avanzada: Persecución o Oscilación
+        // Configuración específica de la familia Avanzada
         if (ronda == 2) {
             alien.setStrategy(new AlienMovimientoOscilante());
             alien.setDisparableStrategy(new DisparoRecto(sonidoDisparo));
