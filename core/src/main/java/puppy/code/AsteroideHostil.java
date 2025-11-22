@@ -1,5 +1,5 @@
 package puppy.code;
-//
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 //import com.badlogic.gdx.Gdx;
 
@@ -14,6 +14,12 @@ public class AsteroideHostil extends Enemigo {
         this.xSpeed = xSpeed;
         this.ySpeed = ySpeed;
     }
+    
+    @Override
+    public void actualizar(float delta) {
+        super.actualizar(delta); // mueve usando ReboteMovimiento
+    }
+    
 
     @Override
     public void dibujar(SpriteBatch batch) {

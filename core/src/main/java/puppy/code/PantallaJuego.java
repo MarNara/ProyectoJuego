@@ -96,7 +96,7 @@ public class PantallaJuego extends AbstractScreen {
     private void crearAliens() {
         Random r = new Random();
         int cantAliens = 3 + ronda;
-        
+
         for (int i = 0; i < cantAliens; i++) {
             float alienWidth = 40f;
             float alienHeight = 40f;
@@ -109,9 +109,20 @@ public class PantallaJuego extends AbstractScreen {
                 2 + ronda,
                 naveDisparoSound
             );
-            
-            //Agregar el alien a la lista global
-            hostileEntities.add(alien); 
+
+            //inicio uso del patron strategy
+            if (ronda == 1) {
+                alien.setStrategy(new AlienMovimientoLineal());
+            } 
+            else if (ronda == 2) {
+                alien.setStrategy(new AlienMovimientoOscilante());
+            }
+            else if (ronda >= 3) {
+                alien.setStrategy(new AlienMovimiento()); // sinusoidal
+            }
+            //fin strategy
+
+            hostileEntities.add(alien);
         }
     }
     

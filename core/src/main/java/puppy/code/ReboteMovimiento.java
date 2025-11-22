@@ -1,42 +1,25 @@
 package puppy.code;
 
-import com.badlogic.gdx.Gdx;
-
 /**
- * Estrategia de movimiento para asteroides: rebote en los bordes de la pantalla.
+ * Estrategia de movimiento que rebota en los bordes.
  */
 public class ReboteMovimiento implements MovementStrategy<AsteroideHostil> {
 
     @Override
-    public void move(AsteroideHostil asteroide, float delta) {
-        if (!asteroide.estaActiva()) return;
+    public void move(AsteroideHostil a, float delta) {
+        if (!a.estaActiva()) return;
 
-        int xSpeed = asteroide.getXSpeed();
-        int ySpeed = asteroide.getYSpeed();
-        
-        float multiplicador = 1.5f; 
-        float nuevaX = asteroide.getX() + xSpeed * delta * multiplicador;
-        float nuevaY = asteroide.getY() + ySpeed * delta * multiplicador;
+        a.setX(a.getX() + a.getXSpeed() * delta);
+        a.setY(a.getY() + a.getYSpeed() * delta);
 
-        asteroide.setX(nuevaX);
-        asteroide.setY(nuevaY);
+        float anchoPantalla = 800f;
+        float altoPantalla = 600f;
 
-        // Lógica de rebote
-        if (asteroide.getX() < 0) { 
-            asteroide.setX(0); 
-            asteroide.setXSpeed(-xSpeed); 
+        if (a.getX() <= 0 || a.getX() + a.getAncho() >= anchoPantalla) {
+            a.setXSpeed(-a.getXSpeed());
         }
-        if (asteroide.getX() + asteroide.getAncho() > Gdx.graphics.getWidth()) { 
-            asteroide.setX(Gdx.graphics.getWidth() - asteroide.getAncho()); 
-            asteroide.setXSpeed(-xSpeed); 
-        }
-        if (asteroide.getY() < 0) { 
-            asteroide.setY(0); 
-            asteroide.setYSpeed(-ySpeed); 
-        }
-        if (asteroide.getY() + asteroide.getAlto() > Gdx.graphics.getHeight()) { 
-            asteroide.setY(Gdx.graphics.getHeight() - asteroide.getAlto()); 
-            asteroide.setYSpeed(-ySpeed); 
+        if (a.getY() <= 0 || a.getY() + a.getAlto() >= altoPantalla) {
+            a.setYSpeed(-a.getYSpeed());
         }
     }
 }

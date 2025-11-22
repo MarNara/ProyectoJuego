@@ -1,7 +1,7 @@
 package puppy.code;
 
 import com.badlogic.gdx.math.MathUtils;
-//
+
 /**
  * Estrategia: Movimiento sinusoidal (Zig-Zag suave)
  * Cumple con GM2.3: Es un algoritmo de movimiento complejo y específico para Aliens.

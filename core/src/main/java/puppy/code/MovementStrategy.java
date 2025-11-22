@@ -1,5 +1,5 @@
 package puppy.code;
-//
+
 /**
  * Define la interfaz para los algoritmos de movimiento.
  * Es genérica para garantizar la seguridad de tipos.

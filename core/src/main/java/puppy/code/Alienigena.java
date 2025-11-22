@@ -1,5 +1,5 @@
 package puppy.code;
-//
+
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import java.util.ArrayList;
@@ -27,11 +27,8 @@ public class Alienigena extends Enemigo implements Disparos {
 
     @Override
     public void actualizar(float delta) {
-        // La llamada a super.actualizar(delta) Enemigo la implementa.
-        super.actualizar(delta); 
-        
-        //lógica específica del alien (Timer)
-        tiempoUltimoDisparo += delta;
+        super.actualizar(delta); // Aquí se ejecuta la Strategy
+        tiempoUltimoDisparo += delta; // Lógica específica del alien
     }
 
     @Override

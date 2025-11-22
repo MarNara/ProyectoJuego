@@ -1,5 +1,5 @@
 package puppy.code;
-//
+
 // Hereda de Entidad e implementa las capacidades que todo enemigo tiene por defecto
 public abstract class Enemigo extends Entidad implements Hostil, Destructible {
     
@@ -19,11 +19,10 @@ public abstract class Enemigo extends Entidad implements Hostil, Destructible {
     }
     
  // Setter para cambiar la estrategia dinámicamente
-    @SuppressWarnings("rawtypes")
-    public void setMovementStrategy(MovementStrategy strategy) {
-        this.movementStrategy = strategy;
+    public void setStrategy(MovementStrategy<? extends Enemigo> strategy) {
+        this.movementStrategy = (MovementStrategy<Enemigo>) strategy;
     }
-    
+
  // IMPLEMENTACIÓN CONCRETA: Delega el movimiento a la Strategy
     @Override
     @SuppressWarnings("unchecked")
