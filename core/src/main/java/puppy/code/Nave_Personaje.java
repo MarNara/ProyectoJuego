@@ -88,6 +88,10 @@ public class Nave_Personaje extends Entidad implements Disparable, Destructible 
         }
     }
     
+    @Override 
+    public com.badlogic.gdx.math.Rectangle getArea() {
+        return spr.getBoundingRectangle();
+    }
 
     //IMPLEMENTACIÓN DE INTERFAZ DESTRUCTIBLE 
     @Override

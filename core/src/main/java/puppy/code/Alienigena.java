@@ -1,5 +1,6 @@
 package puppy.code;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ public class Alienigena extends Enemigo<Alienigena> implements Disparable {
     private float tiempoUltimoDisparo = 0f;
     private float direccion = 1f;
     private Sound sonidoDisparo;
+    private DisparableStrategy<Alienigena> DisparoStrategy;
 
     public Alienigena(float x, float y, float ancho, float alto,int vidaInicial,Sound sonidoDisparo) {
         super(x, y, ancho, alto, vidaInicial, new AlienMovimientoLineal());
@@ -38,21 +40,15 @@ public class Alienigena extends Enemigo<Alienigena> implements Disparable {
 
     @Override
     public void disparar(ArrayList<Bullet> balas) {
-        
-        if (tiempoUltimoDisparo >= tiempoEntreDisparos && estaActiva() && getVida() > 0) {
-            // Usar getters para posición y dimensiones
-            float centroX = getX() + getAncho() / 2f;
-            float baseY = getY() + 5f;
-            float anguloDisparo = -90f;
-            
-            balas.add(new Bullet(centroX, baseY, anguloDisparo, null, false));
-            
-            if (sonidoDisparo != null) {
-                sonidoDisparo.play(0.3f); 
-            }
-            
-            tiempoUltimoDisparo = 0f;
-        }     }
+        if (DisparoStrategy == null || !estaActiva()) return;
+
+        tiempoUltimoDisparo += Gdx.graphics.getDeltaTime();
+
+        if (tiempoUltimoDisparo >= tiempoEntreDisparos) {
+        	DisparoStrategy.disparar(this, balas);
+            tiempoUltimoDisparo = 0;
+        }
+    }
     
     @Override
     public void dibujar(SpriteBatch batch) {
@@ -62,6 +58,7 @@ public class Alienigena extends Enemigo<Alienigena> implements Disparable {
     //GETTERS para debug
     public float getDireccion() { return direccion; }//getters para el campo direccion
     public void setDireccion(float direccion) { this.direccion = direccion; }//setters para el campo direccion
+    public void setDisparableStrategy(DisparableStrategy<Alienigena> s) {this.DisparoStrategy = s;} //setter para la estrategia de disparo
     public float getTiempoUltimoDisparo() { return tiempoUltimoDisparo; }
     public float getTiempoEntreDisparos() { return tiempoEntreDisparos; }
     public float getVelocidadX() { return velocidadX; }

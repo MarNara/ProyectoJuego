@@ -30,8 +30,7 @@ public class PantallaJuego extends AbstractScreen {
     private Texture alienTexture;
     private Texture alienBalaTexture;
     private Texture naveBalaTexture;
-    //private Sound alienDisparoSound;
-    private Sound naveDisparoSound;
+    private Sound disparoSound;// sonido del disparo
 
     public PantallaJuego(SpaceNavigation game, int ronda, int vidas, int score,  
             int velXAsteroides, int velYAsteroides, int cantAsteroides) {
@@ -44,7 +43,7 @@ public class PantallaJuego extends AbstractScreen {
         
         //inicializar assets; musica de fondo y efectos de sonido
         explosionSound = Gdx.audio.newSound(Gdx.files.internal("explosion.ogg"));
-        naveDisparoSound = Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3"));
+        disparoSound = Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3"));
         
         gameMusic = Gdx.audio.newMusic(Gdx.files.internal("piano-loops.wav"));
         gameMusic.setLooping(true);
@@ -114,18 +113,21 @@ public class PantallaJuego extends AbstractScreen {
                 alienWidth,
                 alienHeight,
                 2 + ronda,
-                naveDisparoSound
+                disparoSound
             );
 
             //inicio uso del patron strategy
             if (ronda == 1) {
                 alien.setStrategy(new AlienMovimientoLineal());
+                alien.setDisparableStrategy(new DisparoDirigido(nave, disparoSound));
             } 
             else if (ronda == 2) {
                 alien.setStrategy(new AlienMovimientoOscilante());
+                alien.setDisparableStrategy(new DisparoRecto(disparoSound));
             }
             else if (ronda >= 3) {
-                alien.setStrategy(new AlienMovimientoPersecucion(nave)); // sinusoidal
+                alien.setStrategy(new AlienMovimientoPersecucion(nave)); // persige
+                alien.setDisparableStrategy(new DisparoDirigido(nave, disparoSound));
             }
             //fin strategy
 
