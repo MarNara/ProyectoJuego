@@ -5,13 +5,32 @@ public abstract class Enemigo extends Entidad implements Hostil, Destructible {
     
     private int vida;
     private final int puntosBase = 10; // Puntos estándar por destruir este enemigo
+    //para el strategy
+    @SuppressWarnings("rawtypes")
+    private MovementStrategy movementStrategy;
 
     // El constructor de Enemigo llama al constructor de Entidad
     @SuppressWarnings("rawtypes")
     public Enemigo(float x, float y, float ancho, float alto, int vidaInicial, MovementStrategy strategy) {
         // Llama a Entidad(x, y, ancho, alto)
-        super(x, y, ancho, alto, strategy); 
+        super(x, y, ancho, alto); 
         this.vida = vidaInicial;
+        this.movementStrategy = strategy;
+    }
+    
+ // Setter para cambiar la estrategia dinámicamente
+    @SuppressWarnings("rawtypes")
+    public void setMovementStrategy(MovementStrategy strategy) {
+        this.movementStrategy = strategy;
+    }
+    
+ // IMPLEMENTACIÓN CONCRETA: Delega el movimiento a la Strategy
+    @Override
+    @SuppressWarnings("unchecked")
+    public void actualizar(float delta) {
+        if (movementStrategy != null) {
+            movementStrategy.move(this, delta); 
+        }
     }
 
     // Implementación de Destructible (Lógica de vida compartida)

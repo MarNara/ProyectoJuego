@@ -10,27 +10,19 @@ public abstract class Entidad {
     private float ancho;    
     private float alto;     
     private boolean activa; 
-    //para el strategy
-    @SuppressWarnings("rawtypes")
-    private MovementStrategy movementStrategy;
+   
 
     // Constructor
-    @SuppressWarnings("rawtypes")
-    public Entidad(float x, float y, float ancho, float alto, MovementStrategy strategy) {
+    public Entidad(float x, float y, float ancho, float alto) {
         this.x = x;
         this.y = y;
         this.ancho = ancho;
         this.alto = alto;
         this.activa = true;
-        this.movementStrategy = strategy;
     }
 
     //MÉTODOS PÚBLICOS (interfaz controlada)
-    // Setter para cambiar la estrategia dinámicamente
-    @SuppressWarnings("rawtypes")
-    public void setMovementStrategy(MovementStrategy strategy) {
-        this.movementStrategy = strategy;
-    }
+    
     public Rectangle getArea() {
         return new Rectangle(x, y, ancho, alto);
     }
@@ -64,15 +56,7 @@ public abstract class Entidad {
     
     public void setActiva(boolean activa) { this.activa = activa; }
     
-    // MÉTODO ACTUALIZAR DELEGADO (Ya no es abstracto)
-    @SuppressWarnings("unchecked") // Suprime el warning generado por la llamada raw type a move()
-    public void actualizar(float delta) {
-        if (movementStrategy != null) {
-            // Delega la ejecución, pasando 'this' (la Entidad).
-            // Java maneja la llamada al método move correcto a través de la interfaz.
-            movementStrategy.move(this, delta); 
-        }
-    }
     //MÉTODOS ABSTRACTOS
+    public abstract void actualizar(float delta);
     public abstract void dibujar(SpriteBatch batch);
 }

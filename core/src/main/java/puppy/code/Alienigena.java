@@ -13,7 +13,7 @@ public class Alienigena extends Enemigo implements Disparos {
     private Sound sonidoDisparo;
 
     public Alienigena(float x, float y, float ancho, float alto, int vidaInicial, Sound sonidoDisparo) {
-        super(x, y, ancho, alto, vidaInicial, new AlienMovimiento());
+        super(x, y, ancho, alto, vidaInicial, new AlienMovimiento()); 
         this.sonidoDisparo = sonidoDisparo;
     }
     
@@ -27,10 +27,10 @@ public class Alienigena extends Enemigo implements Disparos {
 
     @Override
     public void actualizar(float delta) {
-        // 1. Ejecuta el movimiento (a través de Entidad -> AlienMovement)
+        // La llamada a super.actualizar(delta) Enemigo la implementa.
         super.actualizar(delta); 
         
-        // 2. Mantiene la lógica de tiempo/disparo (que NO es movimiento)
+        //lógica específica del alien (Timer)
         tiempoUltimoDisparo += delta;
     }
 

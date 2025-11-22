@@ -10,7 +10,7 @@ public class AsteroideHostil extends Enemigo {
     private int ySpeed;
     //constructor de asteroide hostil
     public AsteroideHostil(float x, float y, float size, int vidaInicial, int xSpeed, int ySpeed) {
-        super(x, y, size, size, vidaInicial, new ReboteMovimiento());
+        super(x, y, size, size, vidaInicial, new ReboteMovimiento()); 
         this.xSpeed = xSpeed;
         this.ySpeed = ySpeed;
     }
