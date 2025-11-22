@@ -115,6 +115,10 @@ public class Bullet {
                 return false;
             }
         }
+        
+    }
+    public boolean isFromPlayer() {
+        return fromPlayer;
     }
     
     public void setTexture(Texture texture) {

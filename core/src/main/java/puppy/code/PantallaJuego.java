@@ -1,7 +1,7 @@
 package puppy.code;
 
 import java.util.ArrayList;
-import java.util.Random;
+//import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.Input;
 
 public class PantallaJuego extends AbstractScreen {
-	
+
     private Texture fondoGalaxia;
     private Sound explosionSound;
     private Music gameMusic;
@@ -64,28 +64,30 @@ public class PantallaJuego extends AbstractScreen {
             Gdx.audio.newSound(Gdx.files.internal("hurt.ogg"))
         );
         nave.setVidas(vidas);
-     //============================================================
-        // APLICACIÓN DE ABSTRACT FACTORY (GM2.4)
+     // ============================================================
+        // APLICACIÓN CORRECTA DE ABSTRACT FACTORY (GM2.4)
         
-        // 1. Crear Fábrica de Asteroides
-        FabricaEnemigos fabricaRocas = new FabricaAsteroides(velXAsteroides, velYAsteroides);
-        
-        // 2. Crear Fábrica de Aliens (Le pasamos la nave para las estrategias)
-        FabricaEnemigos fabricaAliens = new FabricaAliens(ronda, disparoSound, nave);
-        
-        // 3. Generar Asteroides usando su fábrica
-        for (int i = 0; i < cantAsteroides; i++) {
-            hostileEntities.add(fabricaRocas.crearEnemigo());
+        FabricaNivel fabricaDelNivel;
+
+        if (ronda == 1) {
+
+            fabricaDelNivel = new FabricaNivel1(disparoSound, nave);
+        } else {
+            fabricaDelNivel = new FabricaNivelAvanzado(disparoSound, nave, ronda);
         }
         
-        // 4. Generar Aliens usando su fábrica
-        // Calculamos cantidad de aliens según la ronda (Lógica que estaba en crearAliens)
+
+        for (int i = 0; i < cantAsteroides; i++) {
+            AsteroideHostil asteroide = fabricaDelNivel.crearAsteroide();
+            hostileEntities.add(asteroide);
+        }
+        
         int cantAliens = (ronda == 3) ? 2 : (3 + ronda);
         
         for (int i = 0; i < cantAliens; i++) {
-            hostileEntities.add(fabricaAliens.crearEnemigo());
+            Alienigena alien = fabricaDelNivel.crearAlien();
+            hostileEntities.add(alien);
         }
-        //============================================================
     
         //CARGAR TEXTURAS UNA SOLA VEZ
         alienTexture = new Texture(Gdx.files.internal("alienSinFondo.png"));
@@ -93,7 +95,7 @@ public class PantallaJuego extends AbstractScreen {
         naveBalaTexture = new Texture(Gdx.files.internal("Rocket2.png")); 
         
     }
-    
+    /*
     private void crearAliens() {
         Random r = new Random();
         int cantAliens;
@@ -136,7 +138,7 @@ public class PantallaJuego extends AbstractScreen {
             hostileEntities.add(alien);
         }
     }
-    
+    */
     public void dibujaEncabezado() {
         CharSequence str = "Vidas: "+nave.getVidas()+" Ronda: "+ronda;
         game.getFont().getData().setScale(2f);        
@@ -189,7 +191,7 @@ public class PantallaJuego extends AbstractScreen {
             Bullet b = balas.get(i);
             
             if (b.getTexture() == null) {
-                Texture texturaUsar = (b.getAngle() == -90f) ? alienBalaTexture : naveBalaTexture;
+                Texture texturaUsar = (!b.isFromPlayer()) ? alienBalaTexture : naveBalaTexture;
                 b.setTexture(texturaUsar);
             }
             
