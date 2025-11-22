@@ -7,11 +7,8 @@ import java.util.Random;
 public class FabricaNivel1 implements FabricaNivel {
     
     private Sound sonidoDisparo;
-    private Nave_Personaje nave; // No se usa en Nivel 1, pero la estructura lo permite
-
     public FabricaNivel1(Sound sonidoDisparo, Nave_Personaje nave) {
         this.sonidoDisparo = sonidoDisparo;
-        this.nave = nave;
     }
 
     @Override
@@ -42,7 +39,7 @@ public class FabricaNivel1 implements FabricaNivel {
         
         // Configuración de FAMILIA Nivel 1: Movimiento Lineal + Disparo Dirigido Simple
         alien.setStrategy(new AlienMovimientoLineal());
-        alien.setDisparableStrategy(new DisparoDirigido(nave, sonidoDisparo));
+        alien.setDisparableStrategy(new DisparoRecto(sonidoDisparo));
         
         return alien;
     }

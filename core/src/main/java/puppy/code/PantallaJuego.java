@@ -95,50 +95,7 @@ public class PantallaJuego extends AbstractScreen {
         naveBalaTexture = new Texture(Gdx.files.internal("Rocket2.png")); 
         
     }
-    /*
-    private void crearAliens() {
-        Random r = new Random();
-        int cantAliens;
 
-        if (ronda == 3) {  
-            // ronda 3 = persecución
-            cantAliens = 2;  
-        } else {
-            cantAliens = 3 + ronda;
-        }
-
-        for (int i = 0; i < cantAliens; i++) {
-            float alienWidth = 40f;
-            float alienHeight = 40f;
-            
-            Alienigena alien = new Alienigena(
-                r.nextInt(700),
-                400 + r.nextInt(100),
-                alienWidth,
-                alienHeight,
-                2 + ronda,
-                disparoSound
-            );
-
-            //inicio uso del patron strategy
-            if (ronda == 1) {
-                alien.setStrategy(new AlienMovimientoLineal());
-                alien.setDisparableStrategy(new DisparoDirigido(nave, disparoSound));
-            } 
-            else if (ronda == 2) {
-                alien.setStrategy(new AlienMovimientoOscilante());
-                alien.setDisparableStrategy(new DisparoRecto(disparoSound));
-            }
-            else if (ronda >= 3) {
-                alien.setStrategy(new AlienMovimientoPersecucion(nave)); // persige
-                alien.setDisparableStrategy(new DisparoDirigido(nave, disparoSound));
-            }
-            //fin strategy
-
-            hostileEntities.add(alien);
-        }
-    }
-    */
     public void dibujaEncabezado() {
         CharSequence str = "Vidas: "+nave.getVidas()+" Ronda: "+ronda;
         game.getFont().getData().setScale(2f);        
