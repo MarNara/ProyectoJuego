@@ -10,7 +10,7 @@ public class AlienMovimientoLineal implements MovementStrategy<Alienigena> {
         alien.setX(nuevaX);
 
         // Rebote en bordes
-        float anchoPantalla = 800f;
+        float anchoPantalla = com.badlogic.gdx.Gdx.graphics.getWidth();
         if (alien.getX() <= 0) {
             alien.setX(0);
             alien.setDireccion(1f);

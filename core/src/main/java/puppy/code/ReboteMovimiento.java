@@ -1,9 +1,16 @@
 package puppy.code;
 
-/**
- * Estrategia de movimiento que rebota en los bordes.
- */
+// Estrategia de movimiento que rebota en los bordes.
 public class ReboteMovimiento implements MovementStrategy<AsteroideHostil> {
+
+	private float anchoPantalla;
+    private float altoPantalla;
+
+    //Constructor
+    public ReboteMovimiento(float anchoPantalla, float altoPantalla) {
+        this.anchoPantalla = anchoPantalla;
+        this.altoPantalla = altoPantalla;
+    }
 
     @Override
     public void move(AsteroideHostil a, float delta) {
@@ -12,12 +19,12 @@ public class ReboteMovimiento implements MovementStrategy<AsteroideHostil> {
         a.setX(a.getX() + a.getXSpeed() * delta);
         a.setY(a.getY() + a.getYSpeed() * delta);
 
-        float anchoPantalla = 800f;
-        float altoPantalla = 600f;
-
+        //Rebote horizontal
         if (a.getX() <= 0 || a.getX() + a.getAncho() >= anchoPantalla) {
             a.setXSpeed(-a.getXSpeed());
         }
+
+        //Rebote vertical
         if (a.getY() <= 0 || a.getY() + a.getAlto() >= altoPantalla) {
             a.setYSpeed(-a.getYSpeed());
         }

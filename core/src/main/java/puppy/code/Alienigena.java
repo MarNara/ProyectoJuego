@@ -4,7 +4,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import java.util.ArrayList;
 /*El alienigena le genera daño a la nave*/
-public class Alienigena extends Enemigo implements Disparos {
+public class Alienigena extends Enemigo<Alienigena> implements Disparos {
     
     private float velocidadX = 100f;
     private float tiempoEntreDisparos = 3.0f;
@@ -12,9 +12,14 @@ public class Alienigena extends Enemigo implements Disparos {
     private float direccion = 1f;
     private Sound sonidoDisparo;
 
-    public Alienigena(float x, float y, float ancho, float alto, int vidaInicial, Sound sonidoDisparo) {
-        super(x, y, ancho, alto, vidaInicial, new AlienMovimiento()); 
+    public Alienigena(float x, float y, float ancho, float alto,int vidaInicial,Sound sonidoDisparo) {
+        super(x, y, ancho, alto, vidaInicial, new AlienMovimientoLineal());
         this.sonidoDisparo = sonidoDisparo;
+    }
+    
+    @Override
+    protected Alienigena getThis() {
+        return this;
     }
     
     public void setVelocidad(float velocidad) {
@@ -51,7 +56,7 @@ public class Alienigena extends Enemigo implements Disparos {
     
     @Override
     public void dibujar(SpriteBatch batch) {
-        // Vacío - renderizado por PantallaJuego
+        // Vacío porque es renderizado por PantallaJuego
     }
     
     //GETTERS para debug

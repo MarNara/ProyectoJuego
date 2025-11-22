@@ -53,7 +53,7 @@ public class PantallaJuego extends AbstractScreen {
         
         //cargar imagen del fondo
         fondoGalaxia = new Texture(Gdx.files.internal("fondoGalaxia.png"));
-        asteroideTexture = new Texture(Gdx.files.internal("aGreyMedium4.png"));
+        asteroideTexture = new Texture(Gdx.files.internal("asteroideRoca.png"));
         
         // cargar imagen de la nave, 64x64   
         nave = new Nave_Personaje(
@@ -69,7 +69,7 @@ public class PantallaJuego extends AbstractScreen {
         //crear asteroides
         Random r = new Random();
         for (int i = 0; i < cantAsteroides; i++) {
-            float size = 20 + r.nextInt(10);
+            float size = 40 + r.nextInt(15);
             int initialLife = 1;// >:C
             
             AsteroideHostil ah = new AsteroideHostil(
@@ -84,7 +84,7 @@ public class PantallaJuego extends AbstractScreen {
         }
         
         //CARGAR TEXTURAS UNA SOLA VEZ
-        alienTexture = new Texture(Gdx.files.internal("alien.png"));
+        alienTexture = new Texture(Gdx.files.internal("alienSinFondo.png"));
         alienBalaTexture = new Texture(Gdx.files.internal("alien_bullet3.png"));
         naveBalaTexture = new Texture(Gdx.files.internal("Rocket2.png"));
         
@@ -95,7 +95,14 @@ public class PantallaJuego extends AbstractScreen {
     
     private void crearAliens() {
         Random r = new Random();
-        int cantAliens = 3 + ronda;
+        int cantAliens;
+
+        if (ronda == 3) {  
+            // ronda 3 = persecución
+            cantAliens = 2;  
+        } else {
+            cantAliens = 3 + ronda;
+        }
 
         for (int i = 0; i < cantAliens; i++) {
             float alienWidth = 40f;
@@ -118,7 +125,7 @@ public class PantallaJuego extends AbstractScreen {
                 alien.setStrategy(new AlienMovimientoOscilante());
             }
             else if (ronda >= 3) {
-                alien.setStrategy(new AlienMovimiento()); // sinusoidal
+                alien.setStrategy(new AlienMovimientoPersecucion(nave)); // sinusoidal
             }
             //fin strategy
 

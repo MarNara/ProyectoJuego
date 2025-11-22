@@ -18,7 +18,7 @@ public class AlienMovimientoOscilante implements MovementStrategy<Alienigena> {
         alien.setY(nuevaY);
 
         // Rebotes horizontales
-        float anchoPantalla = 800f;
+        float anchoPantalla = com.badlogic.gdx.Gdx.graphics.getWidth();
         if (alien.getX() <= 0) {
             alien.setX(0);
             alien.setDireccion(1f);

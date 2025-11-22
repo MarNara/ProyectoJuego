@@ -5,7 +5,7 @@ package puppy.code;
  * Es genérica para garantizar la seguridad de tipos.
  * @param <T> El tipo específico de Enemigo a mover (ej. AsteroideHostil o Alienigena).
  */
-public interface MovementStrategy<T extends Enemigo> {
+public interface MovementStrategy<T extends Enemigo<T>> {
     
     /**
      * Aplica la lógica de movimiento al tipo de Enemigo especificado.

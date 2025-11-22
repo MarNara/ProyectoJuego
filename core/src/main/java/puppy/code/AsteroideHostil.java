@@ -1,25 +1,25 @@
 package puppy.code;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-//import com.badlogic.gdx.Gdx;
+
 
 /*Está clase representa los asteroides que le hacen daño a la nave*/
-public class AsteroideHostil extends Enemigo {
+public class AsteroideHostil extends Enemigo<AsteroideHostil> {
 
     private int xSpeed;
     private int ySpeed;
     //constructor de asteroide hostil
-    public AsteroideHostil(float x, float y, float size, int vidaInicial, int xSpeed, int ySpeed) {
-        super(x, y, size, size, vidaInicial, new ReboteMovimiento()); 
+    public AsteroideHostil(float x, float y, float size, int vidaInicial,int xSpeed, int ySpeed) {
+        super(x, y, size, size, vidaInicial,new ReboteMovimiento(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         this.xSpeed = xSpeed;
         this.ySpeed = ySpeed;
     }
     
     @Override
     public void actualizar(float delta) {
-        super.actualizar(delta); // mueve usando ReboteMovimiento
+        super.actualizar(delta); //se mueve usando ReboteMovimiento
     }
-    
 
     @Override
     public void dibujar(SpriteBatch batch) {
@@ -39,6 +39,11 @@ public class AsteroideHostil extends Enemigo {
             otra.xSpeed = tempX;
             otra.ySpeed = tempY;
         }
+    }
+    
+    @Override
+    protected AsteroideHostil getThis() {
+        return this;
     }
 
     public int getXSpeed() { return xSpeed; }
