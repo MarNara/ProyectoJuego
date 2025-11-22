@@ -1,5 +1,5 @@
 package puppy.code;
-
+//
 // Hereda de Entidad e implementa las capacidades que todo enemigo tiene por defecto
 public abstract class Enemigo extends Entidad implements Hostil, Destructible {
     
