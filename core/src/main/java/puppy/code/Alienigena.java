@@ -4,7 +4,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import java.util.ArrayList;
 /*El alienigena le genera daño a la nave*/
-public class Alienigena extends Enemigo<Alienigena> implements Disparos {
+public class Alienigena extends Enemigo<Alienigena> implements Disparable {
     
     private float velocidadX = 100f;
     private float tiempoEntreDisparos = 3.0f;

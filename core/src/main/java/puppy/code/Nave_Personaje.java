@@ -11,7 +11,7 @@ import com.badlogic.gdx.math.MathUtils;
 import java.util.ArrayList;
 
 // La nave hereda de Entidad e IMPLEMENTA Destructible y Disparos
-public class Nave_Personaje extends Entidad implements Disparos, Destructible {
+public class Nave_Personaje extends Entidad implements Disparable, Destructible {
 
     private boolean destruida = false;
     private int vidas = 3;
