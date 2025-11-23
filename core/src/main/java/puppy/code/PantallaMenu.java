@@ -11,7 +11,7 @@ public class PantallaMenu extends AbstractScreen {
 	
 	
 	public PantallaMenu(SpaceNavigation game) {
-		super(game, 0, 0, 0.2f);
+		super(game, 0.4f,0.6f , 0.9f);
 	}
 
 	@Override
@@ -22,7 +22,7 @@ public class PantallaMenu extends AbstractScreen {
 	@Override
 	protected void drawContent(float delta) {
 		// Mover aquí solo las líneas de dibujado
-		game.getFont().draw(game.getBatch(), "Bienvenido a Space Navigation !", 140, 400);
+		game.getFont().draw(game.getBatch(), "Bienvenido a Space Nav: Guerra Galáctica !", 140, 400);
 		game.getFont().draw(game.getBatch(), "Pincha en cualquier lado o presiona cualquier tecla para comenzar ...", 100, 300);
 	}
 
