@@ -3,12 +3,14 @@ package puppy.code;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 
 
 public class PantallaGameOver extends AbstractScreen {
 
 	public PantallaGameOver(SpaceNavigation game) {
-		super(game, 0, 0, 0.2f);
+		//super(game, 0, 0, 0.2f);
+		super(game, 0.5f, 0, 0);
 	}
 	
 	@Override
@@ -20,8 +22,10 @@ public class PantallaGameOver extends AbstractScreen {
 	@Override
 	protected void drawContent(float delta) {
 		// Mover aquí solo las líneas de dibujado (las que estaban entre begin/end)
-		game.getFont().draw(game.getBatch(), "Game Over !!! ", 120, 400, 400, 1, true);
-		game.getFont().draw(game.getBatch(), "Pincha en cualquier lado para reiniciar ...", 100, 300);
+		game.getFont().setColor(Color.WHITE);
+		game.getFont().draw(game.getBatch(), "FIN DEL JUEGO !!! ", 375  , 500, 500, 1, true);
+		game.getFont().draw(game.getBatch(), "Pincha en cualquier lado para reiniciar ...", 350, 300);
+		
 	}
 	
 	@Override
@@ -36,9 +40,6 @@ public class PantallaGameOver extends AbstractScreen {
 			dispose();
 		}
 	}
-	
-	// 7. ELIMINAR MÉTODOS VACÍOS (show, resize, pause, etc.)
-	// Ya están implementados (vacíos) en AbstractScreen
 	
 	@Override
 	public void dispose() {
